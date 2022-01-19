@@ -4,6 +4,7 @@ use Illuminate\Support\Facades\Route;
 
 use App\Http\Controllers\API\AuthController;
 use App\Http\Controllers\API\RoleController;
+use App\Http\Controllers\API\UserController;
 
 /*
 |--------------------------------------------------------------------------
@@ -28,6 +29,10 @@ Route::group(['prefix' => 'pjsb-digital/v1'], function () {
             Route::post('me', [AuthController::class, 'me']);
         });
     });
+
+    // TODO must use api guard
+    // User
+    Route::resource('users', UserController::class);
 
     // Utils
     Route::group(['prefix' => 'utils'], function () {

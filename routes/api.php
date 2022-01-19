@@ -3,6 +3,7 @@
 use Illuminate\Support\Facades\Route;
 
 use App\Http\Controllers\API\AuthController;
+use App\Http\Controllers\API\RoleController;
 
 /*
 |--------------------------------------------------------------------------
@@ -26,5 +27,10 @@ Route::group(['prefix' => 'pjsb-digital/v1'], function () {
             Route::post('refresh', [AuthController::class, 'refresh']);
             Route::post('me', [AuthController::class, 'me']);
         });
+    });
+
+    // Utils
+    Route::group(['prefix' => 'utils'], function () {
+        Route::get('roles', [RoleController::class, 'roles']);
     });
 });

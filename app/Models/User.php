@@ -45,13 +45,16 @@ class User extends Authenticatable implements JWTSubject
         'email_verified_at' => 'datetime',
     ];
 
-    public static function rules()
+    public static function rules($fields = [])
     {
-        return [
-            'name' => 'required',
-            'email' => 'required|email|unique:users',
-            'password' => 'required'
-        ];
+        return array_merge(
+            [
+                'name' => 'required',
+                'email' => 'required|email|unique:users',
+                'password' => 'required'
+            ],
+            $fields
+        );
     }
 
     public function getJWTIdentifier()

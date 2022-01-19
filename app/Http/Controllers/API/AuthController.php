@@ -2,9 +2,12 @@
 
 namespace App\Http\Controllers\API;
 
+use App\Enums\RoleEnum;
 use App\Http\Controllers\Controller;
 use App\Models\User;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Hash;
+
 
 class AuthController extends Controller
 {
@@ -12,13 +15,11 @@ class AuthController extends Controller
     {
         $request->validate(User::rules());
 
-        User::create(array_merge(
-            $request->all(),
-            [
-                'is_active' => false,
-                'role' => 'user'
-            ]
-        ));
+        $encryptPassword = Hash::make($request->password);
+        User::create(array_merge($request->except('password'), [
+            'password' => $encryptPassword, 'is_active' => false,
+            'role' => RoleEnum::STUDENT
+        ]));
 
         return response()->json([
             'success' => true,

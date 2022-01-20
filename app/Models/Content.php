@@ -9,6 +9,7 @@ class Content extends Model
 {
     use HasFactory;
 
+    protected $table = 'content';
     protected $fillable = ['level', 'chapter', 'title'];
 
     public static function rules($fields = [])

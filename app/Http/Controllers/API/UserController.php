@@ -16,11 +16,8 @@ class UserController extends Controller
      */
     public function index()
     {
-        $users = User::paginate(1);
-        return response()->json([
-            'success' => true,
-            'data' => $users
-        ]);
+        $users = User::paginate(10);
+        return response()->success($users);
     }
 
     /**
@@ -38,10 +35,7 @@ class UserController extends Controller
         $encryptPassword = Hash::make($request->password);
         User::create(array_merge($request->except('password'), ['password' => $encryptPassword]));
 
-        return response()->json([
-            'success' => true,
-            'data' => null
-        ]);
+        return response()->success();
     }
 
     /**
@@ -52,10 +46,7 @@ class UserController extends Controller
      */
     public function show(User $user)
     {
-        return response()->json([
-            'success' => true,
-            'data' => $user
-        ]);
+        return response()->success($user);
     }
 
     /**
@@ -73,10 +64,7 @@ class UserController extends Controller
         ]);
         $user->update(['is_active' => $request->is_active, 'role' => $request->role]);
 
-        return response()->json([
-            'success' => true,
-            'data' => null
-        ]);
+        return response()->success();
     }
 
     /**
@@ -88,10 +76,6 @@ class UserController extends Controller
     public function destroy(User $user)
     {
         $user->delete();
-
-        return response()->json([
-            'success' => true,
-            'data' => null
-        ]);
+        return response()->success();
     }
 }

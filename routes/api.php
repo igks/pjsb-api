@@ -4,6 +4,7 @@ use Illuminate\Support\Facades\Route;
 
 use App\Http\Controllers\API\AuthController;
 use App\Http\Controllers\API\ContentController;
+use App\Http\Controllers\API\ContentDetailController;
 use App\Http\Controllers\API\RoleController;
 use App\Http\Controllers\API\UserController;
 
@@ -36,6 +37,7 @@ Route::group(['prefix' => 'pjsb-digital/v1'], function () {
     Route::resource('users', UserController::class);
     // Content
     Route::resource('contents', ContentController::class);
+    Route::resource('content/details', ContentDetailController::class);
 
     // Utils
     Route::group(['prefix' => 'utils'], function () {

@@ -9,6 +9,7 @@ class ContentDetail extends Model
 {
     use HasFactory;
 
+    protected $table = 'content_detail';
     protected $fillable = ['content_id', 'section', 'thumbnail', 'video_url'];
 
     public static function rules($fields = [])

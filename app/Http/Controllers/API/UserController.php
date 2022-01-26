@@ -31,17 +31,17 @@ class UserController extends Controller
         }
 
         if ($isDescending) {
-            $query->orderBy($orderBy, 'DESC');
+            $query->orderBy($orderBy, 'desc');
         } else {
-            $query->orderBy($orderBy);
+            $query->orderBy($orderBy, 'asc');
         }
 
         $records = $query->skip(($page - 1) * $pageSize)->take($pageSize)->get();
         $pagination = [
-            'currentPage' => $page,
-            'pageSize' => $pageSize,
-            'totalItems' => count($records),
-            'totalPages' => ceil(count($records) / $pageSize)
+            'currentPage' => (int)$page + 1,
+            'pageSize' => (int)$pageSize,
+            'totalItems' => (int)count($records),
+            'totalPages' => (int)ceil(count($records) / $pageSize)
         ];
 
         return response()->success(['records' => $records, 'pagination' => $pagination]);

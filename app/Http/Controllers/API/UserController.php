@@ -14,10 +14,37 @@ class UserController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index(Request $request)
     {
-        $users = User::paginate(10);
-        return response()->success($users);
+        $keyword = $request->query("search");
+        $orderBy = $request->query("orderBy");
+        $isDescending = $request->query("isDescending");
+        $page = $request->query("page");
+        $pageSize = $request->query("pageSize");
+
+        if ($keyword != null & $keyword != "") {
+            $query = User::select('*')
+                ->where('name', 'like', '%' . $keyword . '%')
+                ->orWhere('email', 'like', '%' . $keyword . '%');
+        } else {
+            $query = User::select('*');
+        }
+
+        if ($isDescending) {
+            $query->orderBy($orderBy, 'DESC');
+        } else {
+            $query->orderBy($orderBy);
+        }
+
+        $records = $query->skip(($page - 1) * $pageSize)->take($pageSize)->get();
+        $pagination = [
+            'currentPage' => $page,
+            'pageSize' => $pageSize,
+            'totalItems' => count($records),
+            'totalPages' => ceil(count($records) / $pageSize)
+        ];
+
+        return response()->success(['records' => $records, 'pagination' => $pagination]);
     }
 
     /**

@@ -105,4 +105,13 @@ class UserController extends Controller
         $user->delete();
         return response()->success();
     }
+
+    public function activation(int $id)
+    {
+        $user = User::find($id);
+        $user->update([
+            'is_active' => !$user->is_active
+        ]);
+        return response()->success();
+    }
 }

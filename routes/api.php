@@ -35,6 +35,7 @@ Route::group(['prefix' => 'pjsb-digital/v1'], function () {
     // TODO must use api guard
     // User
     Route::resource('users', UserController::class);
+    Route::post('users/{id}/activation', [UserController::class, 'activation']);
     // Content
     Route::resource('contents', ContentController::class);
     Route::resource('content/details', ContentDetailController::class);

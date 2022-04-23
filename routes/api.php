@@ -39,6 +39,7 @@ Route::group(['prefix' => 'pjsb-digital/v1'], function () {
     // Content
     Route::resource('contents', ContentController::class);
     Route::resource('content/details', ContentDetailController::class);
+    Route::get('contents/level/{id}', [ContentController::class, 'contentByLevel']);
 
     // Utils
     Route::group(['prefix' => 'utils'], function () {

@@ -13,9 +13,11 @@ class ContentDetailController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function getByContent(int $id)
     {
-        $details = ContentDetail::paginate(10);
+        $details = ContentDetail::with('content')
+            ->where('content_id', '=', $id)
+            ->paginate(10);
         return response()->success($details);
     }
 

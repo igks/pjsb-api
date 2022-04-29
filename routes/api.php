@@ -38,7 +38,7 @@ Route::group(['prefix' => 'pjsb-digital/v1'], function () {
     Route::post('users/{id}/activation', [UserController::class, 'activation']);
     // Content
     Route::resource('contents', ContentController::class);
-    Route::resource('content/details', ContentDetailController::class);
+    Route::get('content/details/{content_id}', [ContentDetailController::class, 'getByContent']);
     Route::get('contents/level/{id}', [ContentController::class, 'contentByLevel']);
 
     // Utils

@@ -70,4 +70,11 @@ class ContentController extends Controller
         $content->delete();
         return response()->success();
     }
+
+    public function contentByLevel(int $level)
+    {
+        $contents = Content::where('level', '=', $level)->paginate(10);
+
+        return response()->success($contents);
+    }
 }

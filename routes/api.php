@@ -38,8 +38,11 @@ Route::group(['prefix' => 'pjsb-digital/v1'], function () {
     Route::post('users/{id}/activation', [UserController::class, 'activation']);
     // Content
     Route::resource('contents', ContentController::class);
-    Route::get('content/details/{content_id}', [ContentDetailController::class, 'getByContent']);
     Route::get('contents/level/{id}', [ContentController::class, 'contentByLevel']);
+    Route::get('content/details/{content_id}', [ContentDetailController::class, 'getByContent']);
+    Route::post('content/details', [ContentDetailController::class, 'store']);
+    Route::put('content/details/{detail_id}', [ContentDetailController::class, 'update']);
+    Route::delete('content/details/{detail}', [ContentDetailController::class, 'destroy']);
 
     // Utils
     Route::group(['prefix' => 'utils'], function () {

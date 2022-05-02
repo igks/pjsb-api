@@ -53,11 +53,14 @@ class ContentDetailController extends Controller
      * @param  \App\Models\Content  $content
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, ContentDetail $detail)
+    public function update(int $id, Request $request)
     {
-        $request->validate(ContentDetail::rules());
+        $detail = ContentDetail::find($id);
+        if ($detail != null) {
+            $request->validate(ContentDetail::rules());
 
-        $detail->update($request->all());
+            $detail->update($request->all());
+        }
 
         return response()->success($detail);
     }

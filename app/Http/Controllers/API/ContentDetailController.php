@@ -33,9 +33,9 @@ class ContentDetailController extends Controller
         $request->validate(ContentDetail::rules());
         $path = "";
         if ($request->file('thumbnail') != null) {
-            $path = $request->file('thumbnail')->store('public/thumbnail');
+            $path = $request->file('thumbnail')->store('thumbnail', 'public');
         }
-        ContentDetail::create(array_merge($request->except('thumbnail'), ['thumbnail' => substr($path, strlen('public/'))]));
+        ContentDetail::create(array_merge($request->except('thumbnail'), ['thumbnail' => substr($path, strlen('thumbnail/'))]));
 
         return response()->success();
     }
@@ -68,12 +68,12 @@ class ContentDetailController extends Controller
 
             if ($request->file('thumbnail') != null) {
                 if ($detail->thumbnail != "") {
-                    $filename = substr($detail->thumbnail, strlen('thumbnail/'));
+                    $filename = $detail->thumbnail;
                     Storage::disk('thumbnail')->delete($filename);
                 }
 
-                $path = $request->file('thumbnail')->store('public/thumbnail');
-                $detail->update(['thumbnail' => substr($path, strlen('public/'))]);
+                $path = $request->file('thumbnail')->store('thumbnail', 'public');
+                $detail->update(['thumbnail' => substr($path, strlen('thumbnail/'))]);
             }
         }
 
@@ -89,7 +89,7 @@ class ContentDetailController extends Controller
     public function destroy(ContentDetail $detail)
     {
         if ($detail->thumbnail != "") {
-            $filename = substr($detail->thumbnail, strlen('thumbnail/'));
+            $filename = $detail->thumbnail;
             Storage::disk('thumbnail')->delete($filename);
         }
 

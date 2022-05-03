@@ -63,8 +63,18 @@ class ContentDetailController extends Controller
         $detail = ContentDetail::find($id);
         if ($detail != null) {
             $request->validate(ContentDetail::rules());
+            $input = $request->except('thumbnail');
+            $detail->update($input);
 
-            $detail->update($request->all());
+            if ($request->file('thumbnail') != null) {
+                if ($detail->thumbnail != "") {
+                    $filename = substr($detail->thumbnail, strlen('thumbnail/'));
+                    Storage::disk('thumbnail')->delete($filename);
+                }
+
+                $path = $request->file('thumbnail')->store('public/thumbnail');
+                $detail->update(['thumbnail' => substr($path, strlen('public/'))]);
+            }
         }
 
         return response()->success($detail);

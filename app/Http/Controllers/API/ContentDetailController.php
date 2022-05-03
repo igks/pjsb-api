@@ -5,6 +5,7 @@ namespace App\Http\Controllers\API;
 use App\Http\Controllers\Controller;
 use App\Models\ContentDetail;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Storage;
 
 class ContentDetailController extends Controller
 {
@@ -30,7 +31,11 @@ class ContentDetailController extends Controller
     public function store(Request $request)
     {
         $request->validate(ContentDetail::rules());
-        ContentDetail::create($request->all());
+        $path = "";
+        if ($request->file('thumbnail') != null) {
+            $path = $request->file('thumbnail')->store('public/thumbnail');
+        }
+        ContentDetail::create(array_merge($request->except('thumbnail'), ['thumbnail' => substr($path, strlen('public/'))]));
 
         return response()->success();
     }
@@ -73,6 +78,11 @@ class ContentDetailController extends Controller
      */
     public function destroy(ContentDetail $detail)
     {
+        if ($detail->thumbnail != "") {
+            $filename = substr($detail->thumbnail, strlen('thumbnail/'));
+            Storage::disk('thumbnail')->delete($filename);
+        }
+
         $detail->delete();
         return response()->success();
     }
